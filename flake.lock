@@ -17,24 +17,6 @@
         "type": "github"
       }
     },
-    "emacs-overlay": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1671790997,
-        "narHash": "sha256-y2/frrQaBq5pNHQVclNR3GvBfzGf03UtQowb2r+x2V4=",
-        "type": "git",
-        "url": "file:///Users/kenbwu/workplace/emacs-overlay"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///Users/kenbwu/workplace/emacs-overlay"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -51,28 +33,13 @@
         "type": "github"
       }
     },
-    "flake-utils": {
-      "locked": {
-        "lastModified": 1667395993,
-        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1671417167,
-        "narHash": "sha256-JkHam6WQOwZN1t2C2sbp1TqMv3TVRjzrdoejqfefwrM=",
+        "lastModified": 1671877799,
+        "narHash": "sha256-jjC0NtPOT4huSwyichdrKHVCjuGr1al7Wu6PcHo5XZs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bb31220cca6d044baa6dc2715b07497a2a7c4bc7",
+        "rev": "8351f271f85dae1ee28269028acde661e60394dd",
         "type": "github"
       },
       "original": {
@@ -85,7 +52,6 @@
     "root": {
       "inputs": {
         "doom-emacs": "doom-emacs",
-        "emacs-overlay": "emacs-overlay",
         "flake-compat": "flake-compat",
         "nixpkgs": "nixpkgs",
         "zsh-autosuggestions": "zsh-autosuggestions"
