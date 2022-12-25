@@ -84,10 +84,14 @@ with lib;
       {
         home.file =
           let
-            extraConfig = pkgs.writeText "extraConfig" ''
+            configForVterm = lib.optionalString config.programs.zsh.enable ''
+              (after! vterm
+                  (setq vterm-shell "${pkgs.zsh}/bin/zsh"))
+            '';
+            extraConfig = pkgs.writeText "extraConfig" (configForVterm + ''
                 ;; extraConfig
                 ${cfg.extraConfig}
-              '';
+              '');
             extraPackages = pkgs.writeText "extraPackages" ''
                 ;; extraPackages
                 ${cfg.extraPackages}
