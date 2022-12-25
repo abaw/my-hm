@@ -102,10 +102,10 @@ with lib;
                 [ (relToDoomD "packages.el") extraPackages ];
             };
 
-        home.activation.my-hm-test = hm.dag.entryAfter ["writeBoundary"] ''
+        home.activation.my-hm-setup-doomemacs = hm.dag.entryBetween ["reloadSystemd"] ["writeBoundary"] ''
       $DRY_RUN_CMD mkdir -p ${doom-emacs-local-dir}
       $DRY_RUN_CMD mkdir -p ${doom-emacs-profiles-dir}
-      # $DRY_RUN_CMD env PATH="${pkgs.git}/bin:$PATH" ${doom-emacs}/bin/doom sync -e
+      $DRY_RUN_CMD env PATH="${pkgs.git}/bin:$PATH" ${doom-emacs}/bin/doom sync -e
     '';
 
         home.packages = with pkgs; [
