@@ -1,0 +1,25 @@
+diff --git a/modules/completion/vertico/config.el b/modules/completion/vertico/config.el
+index 04e79003e..4a68e5286 100644
+--- a/modules/completion/vertico/config.el
++++ b/modules/completion/vertico/config.el
+@@ -185,7 +185,7 @@ orderless."
+          ("C-x C-d" . consult-dir)
+          ("C-x C-j" . consult-dir-jump-file))
+   :config
+-  (when (modulep! :tools docker)
++  (when nil ;; my-hm: removed due to tramp-container.el in edge bleeding emacs
+     (defun +vertico--consult-dir-docker-hosts ()
+       "Get a list of hosts from docker."
+       (when (require 'docker-tramp nil t)
+diff --git a/modules/tools/docker/packages.el b/modules/tools/docker/packages.el
+index 3752330da..c6da463dd 100644
+--- a/modules/tools/docker/packages.el
++++ b/modules/tools/docker/packages.el
+@@ -1,6 +1,5 @@
+ ;; -*- no-byte-compile: t; -*-
+ ;;; tools/docker/packages.el
+ 
+-(package! docker :pin "44f0bbec9b3deb027d17f4c10d8ec4106ed89dfb")
+-(package! docker-tramp :pin "930d7b46c180d8a13240a028c1b40af84f2a3219")
++(package! docker :pin "cc0046e6a557dce0ccc4108dd22e04f21ba8b0dc")
+ (package! dockerfile-mode :pin "b63a3d12b7dea0cb9efc7f78d7ad5672ceab2a3f")

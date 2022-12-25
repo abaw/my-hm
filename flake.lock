@@ -1,0 +1,114 @@
+{
+  "nodes": {
+    "doom-emacs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669937766,
+        "narHash": "sha256-7AzL08qo5WLeJo10lnF2b7g6FdWnExVYS8yipNyAMMM=",
+        "owner": "doomemacs",
+        "repo": "doomemacs",
+        "rev": "d5ccac5d71c819035fa251f01d023b3f94b4fba4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "doomemacs",
+        "ref": "master",
+        "repo": "doomemacs",
+        "type": "github"
+      }
+    },
+    "emacs-overlay": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1671790997,
+        "narHash": "sha256-y2/frrQaBq5pNHQVclNR3GvBfzGf03UtQowb2r+x2V4=",
+        "type": "git",
+        "url": "file:///Users/kenbwu/workplace/emacs-overlay"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///Users/kenbwu/workplace/emacs-overlay"
+      }
+    },
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1668681692,
+        "narHash": "sha256-Ht91NGdewz8IQLtWZ9LCeNXMSXHUss+9COoqu6JLmXU=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "009399224d5e398d03b22badca40a37ac85412a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "locked": {
+        "lastModified": 1667395993,
+        "narHash": "sha256-nuEHfE/LcWyuSWnS8t12N1wc105Qtau+/OdUAjtQ0rA=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "5aed5285a952e0b949eb3ba02c12fa4fcfef535f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1671417167,
+        "narHash": "sha256-JkHam6WQOwZN1t2C2sbp1TqMv3TVRjzrdoejqfefwrM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "bb31220cca6d044baa6dc2715b07497a2a7c4bc7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "doom-emacs": "doom-emacs",
+        "emacs-overlay": "emacs-overlay",
+        "flake-compat": "flake-compat",
+        "nixpkgs": "nixpkgs",
+        "zsh-autosuggestions": "zsh-autosuggestions"
+      }
+    },
+    "zsh-autosuggestions": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1622844304,
+        "narHash": "sha256-KLUYpUu4DHRumQZ3w59m9aTW6TBKMCXl2UcKi4uMd7w=",
+        "owner": "zsh-users",
+        "repo": "zsh-autosuggestions",
+        "rev": "a411ef3e0992d4839f0732ebeb9823024afaaaa8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zsh-users",
+        "ref": "master",
+        "repo": "zsh-autosuggestions",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
