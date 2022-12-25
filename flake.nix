@@ -34,5 +34,12 @@
       ./emacs.nix
       ./aws.nix
     ];
+
+    templates = {
+      simple = {
+        path = ./templates/simple;
+        description = "A simple flake to use my-hm";
+      };
+    };
   };
 }
