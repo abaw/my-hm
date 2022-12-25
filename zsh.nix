@@ -19,6 +19,24 @@ in
 
   programs.zsh = {
     enable = true;
+    envExtra = ''
+    if [ -e /nix  ]; then
+      nix_owner=$(${pkgs.coreutils}/bin/stat --format "%U" /nix)
+      if [ "$nix_owner" = "${config.home.username}" ]; then
+        # single-user NIX installation
+        to_source=~/.nix-profile/etc/profile.d/nix.sh
+      else
+        # multi-user NIX installation
+        to_source=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+      fi
+      unset nix_owner
+
+      if [ -e "$to_source" ]; then
+        . "$to_source"
+      fi
+      unset to_source
+    fi
+    '';
     initExtraFirst = ''
       # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
       # Initialization code that may require console input (password prompts, [y/n]
