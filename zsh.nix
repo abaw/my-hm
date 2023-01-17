@@ -44,12 +44,24 @@ in
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
+
+      # hack to workaround "nix shell" issue
+      set -A nix_shell_paths
+      for p in $path; do
+          if [[ $p == /nix/store/* ]]; then
+            nix_shell_paths+=($p)
+          fi
+      done
+      PATH=$(echo $PATH|sed -e 's|/nix/store/[^:]*:||g')
+      path=($nix_shell_paths[@] $path)
     '';
 
     initExtra = ''
       source ${./p10k.zsh}
 
       function pcd() { cd ''${PWD%/$1/*}/$1  }
+
+      path=(~/.local/bin $path)
     '';
 
     plugins = [
