@@ -70,6 +70,13 @@ lib.mkMerge [
           set -g update-environment ""
         '';
     };
+
+    programs.bat = {
+      enable = true;
+      config = {
+        theme = "zenburn";
+      };
+    };
   }
   (lib.mkIf isDarwin {
     home.packages = with pkgs; [ skhd lorri ];
