@@ -55,6 +55,8 @@ in
 with lib;
 {
   options.my-hm.emacs = {
+    enable = mkEnableOption "my-hm's emacs configuration";
+
     doomDirectory = mkOption {
       description = ''
         The doom.d directory to use.
@@ -79,57 +81,58 @@ with lib;
       default = "";
     };
   };
-  config = lib.mkMerge
-    [
-      {
-        home.file =
-          let
-            configForVterm = lib.optionalString config.programs.zsh.enable ''
+  config = lib.mkIf cfg.enable
+    (lib.mkMerge
+      [
+        {
+          home.file =
+            let
+              configForVterm = lib.optionalString config.programs.zsh.enable ''
               (after! vterm
                   (setq vterm-shell "${pkgs.zsh}/bin/zsh"))
             '';
-            extraConfig = pkgs.writeText "extraConfig" (configForVterm + ''
+              extraConfig = pkgs.writeText "extraConfig" (configForVterm + ''
                 ;; extraConfig
                 ${cfg.extraConfig}
               '');
-            extraPackages = pkgs.writeText "extraPackages" ''
+              extraPackages = pkgs.writeText "extraPackages" ''
                 ;; extraPackages
                 ${cfg.extraPackages}
               '';
-          in
-            {
-              ".emacs.d".source = user-emacs-dir;
-              ".doom.d/init.el".source = relToDoomD "init.el";
-              ".doom.d/config.el".source = pkgs.concatText "config.el"
-                [ (relToDoomD "config.el") extraConfig ];
-              ".doom.d/packages.el".source = pkgs.concatText "packages.el"
-                [ (relToDoomD "packages.el") extraPackages ];
-            };
+            in
+              {
+                ".emacs.d".source = user-emacs-dir;
+                ".doom.d/init.el".source = relToDoomD "init.el";
+                ".doom.d/config.el".source = pkgs.concatText "config.el"
+                  [ (relToDoomD "config.el") extraConfig ];
+                ".doom.d/packages.el".source = pkgs.concatText "packages.el"
+                  [ (relToDoomD "packages.el") extraPackages ];
+              };
 
-        home.activation.my-hm-setup-doomemacs = hm.dag.entryBetween ["reloadSystemd"] ["writeBoundary"] ''
+          home.activation.my-hm-setup-doomemacs = hm.dag.entryBetween ["reloadSystemd"] ["writeBoundary"] ''
       $DRY_RUN_CMD mkdir -p ${doom-emacs-local-dir}
       $DRY_RUN_CMD mkdir -p ${doom-emacs-profiles-dir}
       $DRY_RUN_CMD env PATH="${pkgs.git}/bin:$PATH" ${doom-emacs}/bin/doom sync -e
     '';
 
-        home.packages = with pkgs; [
-          (ripgrep.override { withPCRE2 = true; })
-          fd
-          (aspellWithDicts (d: [d.en]))
-          ccls
-          pyright
-          python3.pkgs.isort
-        ];
+          home.packages = with pkgs; [
+            (ripgrep.override { withPCRE2 = true; })
+            fd
+            (aspellWithDicts (d: [d.en]))
+            ccls
+            pyright
+            python3.pkgs.isort
+          ];
 
-        programs.emacs = {
-          enable = true;
-          package = doom-emacs;
-        };
-      }
+          programs.emacs = {
+            enable = true;
+            package = doom-emacs;
+          };
+        }
 
-      (lib.mkIf config.programs.zsh.enable
-        {
-          programs.zsh.initExtra = ''
+        (lib.mkIf config.programs.zsh.enable
+          {
+            programs.zsh.initExtra = ''
       # vterm integration: report current directory to terminal
       vterm_printf() {
           if [ -n "$TMUX" ] && ([ "''${TERM%%-*}" = "tmux" ] || [ "''${TERM%%-*}" = "screen" ] ); then
@@ -147,21 +150,21 @@ with lib;
           vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
       }
     '';
-        }
-      )
+          }
+        )
 
-      (lib.mkIf isLinux {
-        systemd.user.services.emacs = {
-          Unit.Description = "Start emacs server";
-          Service = {
-            Type = "simple";
-            ExecStart = "${config.home.homeDirectory}/.nix-profile/bin/emacs --fg-daemon -nw";
-            ExecStop = "${config.home.homeDirectory}/.nix-profile/bin/emacsclient --eval \"(kill-emacs)\"";
-            Restart = "on-failure";
-            RestartSec = 5;
+        (lib.mkIf isLinux {
+          systemd.user.services.emacs = {
+            Unit.Description = "Start emacs server";
+            Service = {
+              Type = "simple";
+              ExecStart = "${config.home.homeDirectory}/.nix-profile/bin/emacs --fg-daemon -nw";
+              ExecStop = "${config.home.homeDirectory}/.nix-profile/bin/emacsclient --eval \"(kill-emacs)\"";
+              Restart = "on-failure";
+              RestartSec = 5;
+            };
+            Install.WantedBy = [ "default.target" ];
           };
-          Install.WantedBy = [ "default.target" ];
-        };
-      })
-    ];
+        })
+      ]);
 }
