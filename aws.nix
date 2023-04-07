@@ -13,9 +13,12 @@
 
   programs.git = {
     # settings for aws codecommit
-    extraConfig.credential = {
+    extraConfig = {
+      credential = {
           helper = "!aws codecommit credential-helper $@";
           UseHttpPath = "true";
+      };
+      protocol.codecommit.allow = "always";
     };
   };
 }
