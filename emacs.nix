@@ -2,7 +2,13 @@
 let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   flake = pkgs.my-hm-flake;
-  emacs = (pkgs.emacsPackagesFor pkgs.emacs).emacsWithPackages (epkgs: with epkgs; [ vterm ]);
+  emacsPkg = if isDarwin
+             then pkgs.emacs.overrideAttrs
+               (old: {
+                 patches = old.patches ++ [ ./patches/no-frame-refocus-cocoa.patch ];
+               })
+             else pkgs.emacs;
+  emacs = (pkgs.emacsPackagesFor emacsPkg).emacsWithPackages (epkgs: with epkgs; [ vterm ]);
   doom-emacs-src-dir = pkgs.applyPatches {
     name = "doom-emacs-src-dir";
     src = flake.inputs.doom-emacs;
@@ -122,12 +128,8 @@ with lib;
             ccls
             pyright
             python3.pkgs.isort
+            doom-emacs
           ];
-
-          programs.emacs = {
-            enable = true;
-            package = doom-emacs;
-          };
         }
 
         (lib.mkIf config.programs.zsh.enable
