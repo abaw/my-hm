@@ -51,3 +51,7 @@
 
 (package! tree-sitter)
 (package! tree-sitter-langs)
+
+;; fix an error at startup, more information on: https://www.reddit.com/r/emacs/comments/1118o25/doom_emacs_error_running_hook_globalgitcommitmode/
+(package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")
+(package! with-editor :pin "bbc60f68ac190f02da8a100b6fb67cf1c27c53ab")
