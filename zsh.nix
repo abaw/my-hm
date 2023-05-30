@@ -10,6 +10,7 @@ let
   omz-custom-dir = pkgs.linkFarm "custom" [
     { name = "plugins"; path = omz-plugins; }
   ];
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
 in
 {
   home.packages = with pkgs; [
@@ -77,8 +78,12 @@ in
         "zoxide"
         "fzf"
         "zsh-autosuggestions"
-      ];
+      ] ++ (lib.lists.optional isLinux "ssh-agent");
       custom = "${omz-custom-dir}";
+      extraConfig = ''
+        zstyle :omz:plugins:ssh-agent quiet yes
+        zstyle :omz:plugins:ssh-agent lazy yes
+      '';
     };
   };
 }
