@@ -79,8 +79,7 @@ lib.mkMerge [
     };
   }
   (lib.mkIf isDarwin {
-    home.packages = with pkgs; [ skhd lorri ];
-    home.file.".skhdrc".source = ./dot_skhdrc;
+    home.packages = with pkgs; [ lorri ];
     launchd.agents = let
       mkAgent = name: args: {
         enable = true;
@@ -103,7 +102,6 @@ lib.mkMerge [
         };
       };
     in {
-      skhd = mkAgent "skhd" [ "${config.home.homeDirectory}/.nix-profile/bin/skhd" ];
       lorri = mkAgent "lorri" [ "${config.home.homeDirectory}/.nix-profile/bin/lorri" "daemon" ];
     };
   })
