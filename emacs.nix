@@ -8,7 +8,10 @@ let
                  patches = old.patches ++ [ ./patches/no-frame-refocus-cocoa.patch ];
                })
              else pkgs.emacs29;
-  emacs = (pkgs.emacsPackagesFor emacsPkg).emacsWithPackages (epkgs: with epkgs; [ vterm ]);
+  emacs = (pkgs.emacsPackagesFor emacsPkg).emacsWithPackages (epkgs: with epkgs; [
+      vterm
+      treesit-grammars.with-all-grammars
+    ]);
   doom-emacs-src-dir = pkgs.applyPatches {
     name = "doom-emacs-src-dir";
     src = flake.inputs.doom-emacs;
