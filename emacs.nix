@@ -12,10 +12,6 @@ let
   doom-emacs-src-dir = pkgs.applyPatches {
     name = "doom-emacs-src-dir";
     src = flake.inputs.doom-emacs;
-    patches = [
-      # patch for newer Emacs(v.29.1) with tramp-container.el
-      ./patches/doomemacs-docker.patch
-    ];
   };
   doom-emacs-local-dir = "${config.xdg.dataHome}/doom-emacs/local";
   doom-emacs-profiles-dir = "${config.xdg.dataHome}/doom-emacs/profiles";
