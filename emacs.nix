@@ -3,18 +3,18 @@ let
   inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
   flake = pkgs.my-hm-flake;
   emacsPkg = if isDarwin
-             then pkgs.emacs.overrideAttrs
+             then pkgs.emacs29.overrideAttrs
                (old: {
                  patches = old.patches ++ [ ./patches/no-frame-refocus-cocoa.patch ];
                })
-             else pkgs.emacs;
+             else pkgs.emacs29;
   emacs = (pkgs.emacsPackagesFor emacsPkg).emacsWithPackages (epkgs: with epkgs; [ vterm ]);
   doom-emacs-src-dir = pkgs.applyPatches {
     name = "doom-emacs-src-dir";
     src = flake.inputs.doom-emacs;
     patches = [
       # patch for newer Emacs(v.29.1) with tramp-container.el
-      # ./patches/doomemacs-docker.patch
+      ./patches/doomemacs-docker.patch
     ];
   };
   doom-emacs-local-dir = "${config.xdg.dataHome}/doom-emacs/local";
@@ -33,8 +33,7 @@ let
       wrapEmacs() {
           local -a wrapArgs=(
               --set-default DOOMLOCALDIR ${doom-emacs-local-dir}
-              # FIXME: use this after swithing to emacs 29 and above
-              # --add-flags '--init-directory ${doom-emacs-src-dir}'
+              --add-flags '--init-directory ${user-emacs-dir}'
           )
           wrapProgram "$1" "''${wrapArgs[@]}"
       }
@@ -107,7 +106,6 @@ with lib;
               '';
             in
               {
-                ".emacs.d".source = user-emacs-dir;
                 ".doom.d/init.el".source = relToDoomD "init.el";
                 ".doom.d/config.el".source = pkgs.concatText "config.el"
                   [ (relToDoomD "config.el") extraConfig ];
