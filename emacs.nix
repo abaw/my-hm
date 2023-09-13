@@ -18,21 +18,13 @@ let
   };
   doom-emacs-local-dir = "${config.xdg.dataHome}/doom-emacs/local";
   doom-emacs-profiles-dir = "${config.xdg.dataHome}/doom-emacs/profiles";
-  user-emacs-dir = pkgs.runCommand "user-emacs-dir" { nativeBuildInputs = [ pkgs.xorg.lndir ]; } ''
-    set -x
-    mkdir doomemacs
-    lndir -silent ${doom-emacs-src-dir} doomemacs
-    mv doomemacs/profiles{,.orig}
-    ln -sfn "${doom-emacs-profiles-dir}" doomemacs/profiles
-    cp -R doomemacs/ $out
-  '';
   doom-emacs = pkgs.runCommand "doom-emacs" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
       cp -R ${emacs}/ $out
       # code stolen from https://github.com/nix-community/nix-doom-emacs/blob/master/default.nix
       wrapEmacs() {
           local -a wrapArgs=(
               --set-default DOOMLOCALDIR ${doom-emacs-local-dir}
-              --add-flags '--init-directory ${user-emacs-dir}'
+              --add-flags '--init-directory ${doom-emacs-src-dir}'
           )
           wrapProgram "$1" "''${wrapArgs[@]}"
       }
