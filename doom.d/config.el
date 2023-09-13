@@ -85,3 +85,6 @@
 
 (use-package! faces
   :config (add-hook 'tty-setup-hook #'abaw/setup-keys-for-terminal))
+
+(after! doom-modeline
+  (advice-remove #'doom-modeline-propertize-icon #'+modeline-disable-icon-in-daemon-a))
