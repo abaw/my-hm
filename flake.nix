@@ -7,7 +7,7 @@
     };
     nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-unstable;
     doom-emacs = {
-      url = github:doomemacs/doomemacs/master;
+      url = github:doomemacs/doomemacs/v2.0.9;
       flake = false;
     };
     zsh-autosuggestions = {
