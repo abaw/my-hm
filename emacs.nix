@@ -38,7 +38,7 @@ let
       }
 
       chmod +w $out/bin
-      for prog in $out/bin/*; do
+      for prog in $out/bin/emacs{,-*}; do
           wrapEmacs "$prog"
       done
 
