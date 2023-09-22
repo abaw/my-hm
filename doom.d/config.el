@@ -91,3 +91,9 @@
   ;; alternative:
   ;; (advice-remove #'doom-modeline-propertize-icon #'+modeline-disable-icon-in-daemon-a)
   )
+
+;; This use `git ls-files' for listing project files, which contains no
+;; untracked files. It's a sane default for me and a lot faster.
+(after! projectile
+  (undefadvice! doom--only-use-generic-command-a (fn vcs))
+  (setq projectile-git-command "git ls-files -z --exclude-standard"))
