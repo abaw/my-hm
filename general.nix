@@ -14,7 +14,6 @@ lib.mkMerge [
       shellcheck
       tree
       bat
-      direnv
     ];
 
     programs.home-manager.enable = true;
@@ -77,41 +76,10 @@ lib.mkMerge [
         theme = "zenburn";
       };
     };
-  }
-  (lib.mkIf isDarwin {
-    home.packages = with pkgs; [ lorri ];
-    launchd.agents = let
-      mkAgent = name: args: {
-        enable = true;
-        config = {
-          ProgramArguments = args;
-          WorkingDirectory = config.home.homeDirectory;
-          RunAtLoad = true;
-          KeepAlive = true;
-          EnvironmentVariables = {
-            SHELL = "/bin/dash";
-            PATH = lib.concatStringsSep ":" [
-              "${config.home.homeDirectory}/.nix-profile/bin"
-              "/run/current-system/sw/bin"
-              "/nix/var/nix/profiles/default/bin"
-              "/usr/bin"
-            ];
-          };
-          StandardOutPath = "/var/tmp/${name}.out.log";
-          StandardErrorPath = "/var/tmp/${name}.err.log";
-        };
-      };
-    in {
-      lorri = mkAgent "lorri" [ "${config.home.homeDirectory}/.nix-profile/bin/lorri" "daemon" ];
-    };
-  })
-  (lib.mkIf isLinux {
-    services.lorri.enable = true;
-  })
 
-  (lib.mkIf config.programs.zsh.enable {
-    programs.zsh.initExtra =
-      ''eval "$(direnv hook zsh)"
-      '';
-  })
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+  }
 ]
